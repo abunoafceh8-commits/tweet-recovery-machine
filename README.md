@@ -1,12 +1,45 @@
-# Tweet Recovery Machine
+# Tweet Recovery Machine — استخراج التغريدات المحذوفة (v1)
 
-أداة استخراج التغريدات المحذوفة.
+> **التصنيف:** أدوات X/Twitter · **المستودع:** `tweet-recovery-machine` · **الحالة:** جاهز للاستضافة الثابتة (Static Hosting)
 
-## Original URL
+أداة استعادة وعرض التغريدات المحذوفة من الأرشيفات.
 
-https://tweet-recovery-machine-o1p3.arcada.app/
+## روابط الموقع الحي والأصول
+- https://tweet-recovery-machine-o1p3.arcada.app/
 
-## Notes
+## روابط المصدر/التصميم المرجعية
+- —
 
-- Downloaded snapshot of the deployed application (HTML + bundled assets).
-- Generated/collected on 2026-10-15.
+## كيفية العمل / ملخص المشروع
+تم تنزيل لقطة كاملة من الموقع الحي (https://tweet-recovery-machine-o1p3.arcada.app/) تشمل `index.html` وكل الأصول المحلية (JS/CSS/صور) بتاريخ 2026-10-15، وأصبح المشروع جاهزًا للاستضافة الثابتة مباشرة.
+
+- العنوان الأصلي في الموقع: `Tweet Recovery Machine - استعادة التغريدات المحذوفة`
+- الوصف الأصلي (Meta): أداة استعادة وعرض التغريدات المحذوفة من الأرشيفات.
+- هذا مشروع ويب ثابت: افتح `index.html` مباشرة أو استضِف المجلد كاملًا على GitHub أو Vercel أو Netlify أو أي استضافة ثابتة بدون أي خطوة بناء (No build step).
+- كل الأصول المحلية التي كان الموقع يعتمد عليها موجودة داخل المستودع في نفس مساراتها الأصلية (`assets/` وغيرها) حتى يعمل الموقع بعد الاستضافة كما كان حيًا.
+
+## الملفات المضمّنة
+- `favicon.svg`
+- `assets/index-VyV3Yo6N.js`
+- `assets/index-C7VbxXNc.css`
+- `README.md` — هذا الشرح
+- `project.json` — بيانات المشروع الوصفية بصيغة JSON
+- `SOURCE.md` — مصدر الأرشفة وتاريخها وملاحظات الأمان
+- `vercel.json` — إعداد استضافة جاهز لـ Vercel
+- `LICENSE` — رخصة MIT
+
+## التشغيل محليًا
+```bash
+python3 -m http.server 8000
+# ثم افتح http://localhost:8000
+```
+
+## الاستضافة على Vercel
+```bash
+npm i -g vercel
+vercel --prod
+```
+أو اربط هذا المستودع من لوحة Vercel وسيُنشر كموقع ثابت مباشرة.
+
+## تحذير الاستخدام المسؤول
+استخدم الأدوات في أغراض مشروعة فقط وبما يتوافق مع قوانين بلدك وشروط استخدام المنصات المعنية. لا تُستخدم أدوات OSINT/الأرشيف للتنمّر أو المضايقة أو انتهاك الخصوصية.

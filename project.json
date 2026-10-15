@@ -1,6 +1,19 @@
 {
-  "slug": "tweet-recovery-machine",
-  "url": "https://tweet-recovery-machine-o1p3.arcada.app/",
-  "title": "Tweet Recovery Machine",
-  "desc": "أداة استخراج التغريدات المحذوفة."
+  "name": "tweet-recovery-machine",
+  "title": "Tweet Recovery Machine — استخراج التغريدات المحذوفة (v1)",
+  "category": "أدوات X/Twitter",
+  "description": "أداة استعادة وعرض التغريدات المحذوفة من الأرشيفات.",
+  "liveUrl": "https://tweet-recovery-machine-o1p3.arcada.app/",
+  "aliases": [],
+  "sourceLinks": [],
+  "originalTitle": "Tweet Recovery Machine - استعادة التغريدات المحذوفة",
+  "originalDescription": "",
+  "type": "static-website",
+  "archivedAt": "2026-10-15",
+  "readyForHosting": true,
+  "files": [
+    "favicon.svg",
+    "assets/index-VyV3Yo6N.js",
+    "assets/index-C7VbxXNc.css"
+  ]
 }
