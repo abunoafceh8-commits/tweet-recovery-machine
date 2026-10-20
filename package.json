@@ -1,0 +1,6 @@
+{
+  "name": "tweet-recovery-machine",
+  "private": true,
+  "type": "module",
+  "license": "MIT"
+}

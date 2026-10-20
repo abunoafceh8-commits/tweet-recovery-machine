@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tweet-recovery-machine.vercel.app/sitemap.xml
