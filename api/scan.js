@@ -28,21 +28,44 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {});
-  const { target, username } = body;
-  const u = (target || username || '').replace('@', '').trim();
-  if (!u) return res.status(400).json({ error: 'Target required' });
+  const body = req.method === 'POST' ? (typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {}) : {};
+  const username = (body.username || req.query?.username || '').replace('@', '').trim();
+  const limit = parseInt(body.limit || req.query?.limit || 100);
+  
+  if (!username) return res.status(400).json({ error: 'Username required' });
 
-  try {
-    const r = await fetch('https://tweet-recovery-machine-o1p3.arcada.app/api/scan', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ target: u }),
-      signal: AbortSignal.timeout(30000)
-    });
-    const data = await r.json();
-    return res.json(data);
-  } catch (e) {
-    return res.json({ error: e.message, tweets: [], summary: { total: 0 } });
-  }
+  // Run all searches in parallel
+  const [live, wayback1, wayback2, nitter] = await Promise.allSettled([
+    searchSyndication(username),
+    searchWayback(username, 'twitter.com', limit),
+    searchWayback(username, 'x.com', limit),
+    searchGoogleCache(username)
+  ]);
+
+  const allTweets = [
+    ...(live.status === 'fulfilled' ? live.value : []),
+    ...(wayback1.status === 'fulfilled' ? wayback1.value : []),
+    ...(wayback2.status === 'fulfilled' ? wayback2.value : []),
+    ...(nitter.status === 'fulfilled' ? nitter.value : [])
+  ];
+
+  // Deduplicate by tweet_id
+  const seen = new Set();
+  const tweets = allTweets.filter(t => {
+    if (seen.has(t.tweet_id)) return false;
+    seen.add(t.tweet_id);
+    return true;
+  }).sort((a, b) => (b.formatted_date || '').localeCompare(a.formatted_date || ''));
+
+  res.json({
+    tweets: tweets.slice(0, limit),
+    summary: {
+      total: tweets.length,
+      live: live.status === 'fulfilled' ? live.value.length : 0,
+      archived: (wayback1.status === 'fulfilled' ? wayback1.value.length : 0) + (wayback2.status === 'fulfilled' ? wayback2.value.length : 0),
+      nitter: nitter.status === 'fulfilled' ? nitter.value.length : 0
+    },
+    username,
+    timestamp: new Date().toISOString()
+  });
 }
