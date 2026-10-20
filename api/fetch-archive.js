@@ -9,31 +9,15 @@ export default async function handler(req, res) {
   if (!url) return res.status(400).json({ error: 'URL required' });
 
   try {
-    const r = await fetch(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
-      signal: AbortSignal.timeout(15000),
-      redirect: 'follow'
+    const r = await fetch('https://tweet-recovery-machine-o1p3.arcada.app/api/fetch-archive', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }),
+      signal: AbortSignal.timeout(30000)
     });
-    const html = await r.text();
-
-    // Extract tweet content
-    const tweetMatch = html.match(/tweet-text[^>]*>([\s\S]*?)<\/p>/i) || 
-                       html.match(/TweetTextSize[^>]*>([\s\S]*?)<\/p>/i) ||
-                       html.match(/data-testid="tweetText"[^>]*>([\s\S]*?)<\/div>/i);
-    const dateMatch = html.match(/title="(\d{1,2}:\d{2}\s*(AM|PM)\s*-\s*\w+\s+\d+,?\s+\d{4})"/i);
-    const authorMatch = html.match(/fullname[^>]*>([\s\S]*?)<\/a>/i) || html.match(/<b[^>]*>([\s\S]*?)<\/b>/);
-
-    res.json({
-      data: {
-        text: tweetMatch?.[1]?.replace(/<[^>]+>/g, '').trim() || 'Could not extract content',
-        author: authorMatch?.[1]?.trim() || '',
-        date: dateMatch?.[1] || '',
-        source: 'wayback_machine'
-      },
-      url,
-      status: r.status
-    });
+    const data = await r.json();
+    return res.json(data);
   } catch (e) {
-    res.json({ error: e.message, data: { text: '', author: '', date: '' } });
+    return res.json({ error: e.message, data: { text: '', author: '' } });
   }
 }
