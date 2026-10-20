@@ -1,4 +1,10 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false
+  "buildCommand": "",
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/scan", "destination": "/api/scan" },
+    { "source": "/api/fetch-archive", "destination": "/api/fetch-archive" },
+    { "source": "/api/saved-tweets", "destination": "/api/saved-tweets" }
+  ]
 }
